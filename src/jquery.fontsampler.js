@@ -16,10 +16,11 @@
 		// Create the defaults once
 		var pluginName = "fontSampler",
 			defaults = {
-				fontName: null,
 				fontFile: null,
 				singleLine: true
-			};
+			},
+			fontFaceDeclarations = {},
+			fontFamily = "";
 
 		// The actual plugin constructor
 		function Plugin ( element, options ) {
@@ -38,25 +39,24 @@
 		// Avoid Plugin.prototype conflicts
 		$.extend( Plugin.prototype, {
 			init: function() {
+				fontFamily = declareFontFace( this.settings.fontFile );
 				this.setupUI();
-				this.loadFont();
+				this.setFont(fontFamily);
 			},
 			setupUI: function() {
 				var that = this;
-				$( this.element ).css( "fontFamily", this.settings.fontName );
 				$( this.element ).attr( "contenteditable", "true" );
 
 				$( this.element ).on( "sizeChange", this.onSizeChange );
 				$( this.element ).on( "keypress", function( event ) {
 					return that.onKeyPress( event, that );
 				} );
-			},
-			loadFont: function() {
-				WebFont.load( {
-					custom: {
-						families: [ this.settings.fontName ]
-					}
+				$( this.element ).on( "fontChange", function( event ) {
+					that.onFontChange( arguments[1] );
 				} );
+			},
+			setFont: function (name) {
+				$( this.element ).css( "fontFamily", fontFamily );
 			},
 			onKeyPress: function( event, that ) {
 				if ( that.settings.singleLine && event.keyCode === 13 ) {
@@ -65,8 +65,36 @@
 			},
 			onSizeChange: function() {
 				$( this ).css( "font-size", arguments[ 1 ] );
+			},
+			onFontChange: function ( file ) {
+				fontFamily = declareFontFace( file );
+				this.setFont( fontFamily );
 			}
 		} );
+
+		// append a new style @font-face declaration
+		// TODO supported formats?
+		// TODO track and check existing declarations
+		function declareFontFace ( file ) {
+			console.log("dec", file, fontFaceDeclarations);
+			if ( fontFaceDeclarations[file] !== undefined ) {
+				console.log("already dec");
+				return fontFaceDeclarations[file];
+			}
+		    var newStyle = document.createElement('style');
+		    var newName = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 20);
+		    newStyle.appendChild(document.createTextNode("\
+		        @font-face {\
+		            font-family: '" + newName + "';\
+		            src: url('" + file + ".woff') format(woff)\
+		        }\
+		    "));
+		    document.head.appendChild(newStyle);
+
+			fontFaceDeclarations[file] = newName;
+		    console.log(newName)
+		    return newName;
+		}
 
 		// A really lightweight plugin wrapper around the constructor,
 		// preventing against multiple instantiations

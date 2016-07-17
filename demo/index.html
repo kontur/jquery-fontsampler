@@ -5,18 +5,10 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
 		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="../src/jquery.fontsampler.js"></script>
-		<style type="text/css">
-		@font-face {
-			font-family: "Test";
-			src: url("OpenSans-Regular-webfont.woff") format("woff");
-		}
-		@font-face {
-			font-family: "TestItalic";
-			src: url("OpenSans-Italic-webfont.woff") format("woff");
-		}
-		</style>
 	</head>
 	<body>
+
+		<h1>Testing size adjustments</h1>
 		<div id="test1">Test</div>
 		<button class="test1-size" data-size="12px">12px</button>
 		<button class="test1-size" data-size="18px">18px</button>
@@ -27,25 +19,42 @@
 		<div id="test2">Test</div>
 		<input id="test2-size" size="2" />px
 
+		<small>This could also be a slider implementation or similar.</small>
+
+		<h1>Testing switching fonts</h1>
+		<div id="test3">Test</div>
+		<select id="test3-font">
+			<option value="OpenSans-Regular-webfont">OpenSans-Regular</option>
+			<option value="OpenSans-Italic-webfont">OpenSans-Italic</option>
+			<option value="OpenSans-Semibold-webfont">OpenSans-Semibold</option>
+		</select>
 
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
-					fontName: "Test",
-					fontFile: "OpenSans-Regular-webfont.woff"
-				});
+					fontFile: "OpenSans-Regular-webfont"
+				} );
 				$("button.test1-size").on("click", function () {
 					$("#test1").trigger("sizeChange", $(this).data("size"));
-				});
+				} );
 
 
 				$( "#test2" ).fontSampler( {
-					fontName: "TestItalic",
-					fontFile: "OpenSans-Italic-webfont.woff"
+					fontFile: "OpenSans-Italic-webfont"
 				} );
 				$("#test2-size").on("change", function () {
 					$("#test2").trigger("sizeChange", $(this).val() + "px");
+				} );
+
+				$("#test3").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				} );
+				$( "#test3-font" ).on("change", function () {
+					console.log("log", $(this).val());
+					$("#test3").trigger("fontChange", $(this).val());
 				});
+
+				
 			} );
 		</script>
 	</body>
