@@ -35,26 +35,26 @@
 					fontFile: "OpenSans-Regular-webfont"
 				} );
 				$("button.test1-size").on("click", function () {
-					$("#test1").trigger("sizeChange", $(this).data("size"));
+					$("#test1").fontSampler("changeSize", $(this).data("size"));
 				} );
+				$("#test1").fontSampler("changeSize", "72px");
+
 
 
 				$( "#test2" ).fontSampler( {
 					fontFile: "OpenSans-Italic-webfont"
 				} );
 				$("#test2-size").on("change", function () {
-					$("#test2").trigger("sizeChange", $(this).val() + "px");
+					$("#test2").fontSampler("changeSize", $(this).val() + "px");
 				} );
+
 
 				$("#test3").fontSampler( {
 					fontFile: "OpenSans-Regular-webfont"
 				} );
 				$( "#test3-font" ).on("change", function () {
-					console.log("log", $(this).val());
-					$("#test3").trigger("fontChange", $(this).val());
-				});
-
-				
+					$("#test3").fontSampler("changeFont", $(this).val());
+				});				
 			} );
 		</script>
 	</body>

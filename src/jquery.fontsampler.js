@@ -34,6 +34,16 @@
 			this._defaults = defaults;
 			this._name = pluginName;
 			this.init();
+
+			// public methods
+			this.changeSize = function( args ) {
+				this.setSize( args[ 1 ] );
+			};
+
+			this.changeFont = function( args ) {
+				fontFamily = declareFontFace( args[ 1 ] );
+				this.setFont( fontFamily );
+			};
 		}
 
 		// Avoid Plugin.prototype conflicts
@@ -41,34 +51,29 @@
 			init: function() {
 				fontFamily = declareFontFace( this.settings.fontFile );
 				this.setupUI();
-				this.setFont(fontFamily);
+				this.setFont( fontFamily );
 			},
 			setupUI: function() {
 				var that = this;
 				$( this.element ).attr( "contenteditable", "true" );
-
-				$( this.element ).on( "sizeChange", this.onSizeChange );
 				$( this.element ).on( "keypress", function( event ) {
 					return that.onKeyPress( event, that );
 				} );
-				$( this.element ).on( "fontChange", function( event ) {
-					that.onFontChange( arguments[1] );
-				} );
 			},
-			setFont: function (name) {
-				$( this.element ).css( "fontFamily", fontFamily );
-			},
+
+			// internal event listeners
 			onKeyPress: function( event, that ) {
 				if ( that.settings.singleLine && event.keyCode === 13 ) {
 					return false;
 				}
 			},
-			onSizeChange: function() {
-				$( this ).css( "font-size", arguments[ 1 ] );
+
+			// manipulation methods mirrored from public mthods
+			setFont: function() {
+				$( this.element ).css( "fontFamily", fontFamily );
 			},
-			onFontChange: function ( file ) {
-				fontFamily = declareFontFace( file );
-				this.setFont( fontFamily );
+			setSize: function( size ) {
+				$( this.element ).css( "font-size", size );
 			}
 		} );
 
@@ -76,33 +81,41 @@
 		// TODO supported formats?
 		// TODO track and check existing declarations
 		function declareFontFace ( file ) {
-			console.log("dec", file, fontFaceDeclarations);
-			if ( fontFaceDeclarations[file] !== undefined ) {
-				console.log("already dec");
-				return fontFaceDeclarations[file];
+			if ( fontFaceDeclarations[ file ] !== undefined ) {
+				return fontFaceDeclarations[ file ];
 			}
-		    var newStyle = document.createElement('style');
-		    var newName = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 20);
-		    newStyle.appendChild(document.createTextNode("\
-		        @font-face {\
-		            font-family: '" + newName + "';\
-		            src: url('" + file + ".woff') format(woff)\
-		        }\
-		    "));
-		    document.head.appendChild(newStyle);
+		    var newStyle = document.createElement( "style" );
 
-			fontFaceDeclarations[file] = newName;
-		    console.log(newName)
+		    // generate a random string font-family name that is specific to this file
+		    var newName = Math.random().toString( 36 ).replace( /[^a-z]+/g, "" ).substr( 0, 20 );
+		    newStyle.appendChild( document.createTextNode( "\n" +
+		        "@font-face {\n" +
+		            "font-family: '" + newName + "';\n" +
+		            "src: url('" + file + ".woff') format(woff)\n" +
+		        "}\n"
+		    ) );
+		    document.head.appendChild( newStyle );
+
+			fontFaceDeclarations[ file ] = newName;
 		    return newName;
 		}
 
 		// A really lightweight plugin wrapper around the constructor,
 		// preventing against multiple instantiations
 		$.fn[ pluginName ] = function( options ) {
+			var args = arguments;
 			return this.each( function() {
 				if ( !$.data( this, "plugin_" + pluginName ) ) {
-					$.data( this, "plugin_" +
-						pluginName, new Plugin( this, options ) );
+					if ( typeof options !== "object" || options === undefined ) {
+						console.log( "fontSampler initialized without or invalid options" );
+					} else {
+						$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+					}
+				} else if ( $.data( this, "plugin_" + pluginName ) &&
+					$( this ).data( "plugin_" + pluginName )[ options ] !== undefined ) {
+					return $( this ).data( "plugin_" + pluginName )[ options ]( args );
+				} else {
+					console.log( "fontSampler non existing method called" );
 				}
 			} );
 		};
