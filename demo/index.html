@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery fontsampler</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="../src/jquery.fontsampler.js"></script>
+		<style type="text/css">
+		@font-face {
+			font-family: "Test";
+			src: url("OpenSans-Regular-webfont.woff") format("woff");
+		}
+		@font-face {
+			font-family: "TestItalic";
+			src: url("OpenSans-Italic-webfont.woff") format("woff");
+		}
+		</style>
+	</head>
+	<body>
+		<div id="test1">Test</div>
+		<button class="test1-size" data-size="12px">12px</button>
+		<button class="test1-size" data-size="18px">18px</button>
+		<button class="test1-size" data-size="2cm">2cm</button>
+
+		<hr>
+
+		<div id="test2">Test</div>
+		<input id="test2-size" size="2" />px
+
+
+		<script>
+			$( function() {
+				$( "#test1" ).fontSampler( {
+					fontName: "Test",
+					fontFile: "OpenSans-Regular-webfont.woff"
+				});
+				$("button.test1-size").on("click", function () {
+					$("#test1").trigger("sizeChange", $(this).data("size"));
+				});
+
+
+				$( "#test2" ).fontSampler( {
+					fontName: "TestItalic",
+					fontFile: "OpenSans-Italic-webfont.woff"
+				} );
+				$("#test2-size").on("change", function () {
+					$("#test2").trigger("sizeChange", $(this).val() + "px");
+				});
+			} );
+		</script>
+	</body>
+</html>

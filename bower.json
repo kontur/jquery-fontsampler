@@ -1,0 +1,23 @@
+{
+  "name": "jquery-fontsampler",
+  "license": "",
+  "authors": [
+    "Johannes Neumeier <hello@johannesneumeier.com>"
+  ],
+  "description": "",
+  "homepage": "",
+  "keywords": [
+    "jquery",
+    "plugin",
+    "jquery-plugin",
+  ],
+  "main": "src/jquery.fontsampler.js",
+  "dependencies": {
+    "jquery": "1"
+  },
+  "ignore": [
+    "npm-debug.log",
+    "bower_components",
+    "node_modules"
+  ]
+}
