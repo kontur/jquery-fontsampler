@@ -1,11 +1,27 @@
 /*
- *  jquery-fontsampler - v
- *  
- *  
+ *  jquery-fontsampler - v0.0.1
+ *  A jQuery plugin for displaying, manipulating and testing webfont type samples
+ *  https://github.com/kontur/jquery-fontsampler
  *
  *  Made by Johannes Neumeier
- *  Under  License
+ *  Under Apache 2.0 License
  */
+/**
+ * Copyright 2016 Johannes Neumeier
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 // the semi-colon before function invocation is a safety net against concatenated
 // scripts and/or other plugins which may not be closed properly.
 ;( function( $, window, document, undefined ) {
@@ -24,10 +40,11 @@
 		// Create the defaults once
 		var pluginName = "fontSampler",
 			defaults = {
-				fontName: null,
 				fontFile: null,
 				singleLine: true
-			};
+			},
+			fontFaceDeclarations = {},
+			fontFamily = "";
 
 		// The actual plugin constructor
 		function Plugin ( element, options ) {
@@ -41,48 +58,88 @@
 			this._defaults = defaults;
 			this._name = pluginName;
 			this.init();
+
+			// public methods
+			this.changeSize = function( args ) {
+				this.setSize( args[ 1 ] );
+			};
+
+			this.changeFont = function( args ) {
+				fontFamily = declareFontFace( args[ 1 ] );
+				this.setFont( fontFamily );
+			};
 		}
 
 		// Avoid Plugin.prototype conflicts
 		$.extend( Plugin.prototype, {
 			init: function() {
+				fontFamily = declareFontFace( this.settings.fontFile );
 				this.setupUI();
-				this.loadFont();
+				this.setFont( fontFamily );
 			},
 			setupUI: function() {
 				var that = this;
-				$( this.element ).css( "fontFamily", this.settings.fontName );
 				$( this.element ).attr( "contenteditable", "true" );
-
-				$( this.element ).on( "sizeChange", this.onSizeChange );
 				$( this.element ).on( "keypress", function( event ) {
 					return that.onKeyPress( event, that );
 				} );
 			},
-			loadFont: function() {
-				WebFont.load( {
-					custom: {
-						families: [ this.settings.fontName ]
-					}
-				} );
-			},
+
+			// internal event listeners
 			onKeyPress: function( event, that ) {
 				if ( that.settings.singleLine && event.keyCode === 13 ) {
 					return false;
 				}
 			},
-			onSizeChange: function() {
-				$( this ).css( "font-size", arguments[ 1 ] );
+
+			// manipulation methods mirrored from public mthods
+			setFont: function() {
+				$( this.element ).css( "fontFamily", fontFamily );
+			},
+			setSize: function( size ) {
+				$( this.element ).css( "font-size", size );
 			}
 		} );
+
+		// append a new style @font-face declaration
+		// TODO supported formats?
+		// TODO track and check existing declarations
+		function declareFontFace ( file ) {
+			if ( fontFaceDeclarations[ file ] !== undefined ) {
+				return fontFaceDeclarations[ file ];
+			}
+		    var newStyle = document.createElement( "style" );
+
+		    // generate a random string font-family name that is specific to this file
+		    var newName = Math.random().toString( 36 ).replace( /[^a-z]+/g, "" ).substr( 0, 20 );
+		    newStyle.appendChild( document.createTextNode( "\n" +
+		        "@font-face {\n" +
+		            "font-family: '" + newName + "';\n" +
+		            "src: url('" + file + ".woff') format(woff)\n" +
+		        "}\n"
+		    ) );
+		    document.head.appendChild( newStyle );
+
+			fontFaceDeclarations[ file ] = newName;
+		    return newName;
+		}
 
 		// A really lightweight plugin wrapper around the constructor,
 		// preventing against multiple instantiations
 		$.fn[ pluginName ] = function( options ) {
+			var args = arguments;
 			return this.each( function() {
 				if ( !$.data( this, "plugin_" + pluginName ) ) {
-					$.data( this, "plugin_" +
-						pluginName, new Plugin( this, options ) );
+					if ( typeof options !== "object" || options === undefined ) {
+						console.log( "fontSampler initialized without or invalid options" );
+					} else {
+						$.data( this, "plugin_" + pluginName, new Plugin( this, options ) );
+					}
+				} else if ( $.data( this, "plugin_" + pluginName ) &&
+					$( this ).data( "plugin_" + pluginName )[ options ] !== undefined ) {
+					return $( this ).data( "plugin_" + pluginName )[ options ]( args );
+				} else {
+					console.log( "fontSampler non existing method called" );
 				}
 			} );
 		};
