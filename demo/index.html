@@ -41,6 +41,10 @@
 		<div id="test5">Test<br>Test<br>Test</div>
 		<input id="test5-leading" size="6" />
 
+		<hr>
+		<h1>Testing single line</h1>
+		<div id="test6">Can't use line breaks in this</div>
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
@@ -81,6 +85,12 @@
 				});
 				$("#test5-leading").on("change", function () {
 					$("#test5").fontSampler("changeLeading", $(this).val());
+				});
+
+
+				$("#test6").fontSampler({
+					fontFile: "OpenSans-Regular-webfont",
+					multiLine: false
 				});
 			} );
 		</script>

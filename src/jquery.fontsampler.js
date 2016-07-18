@@ -33,7 +33,7 @@
 		var pluginName = "fontSampler",
 			defaults = {
 				fontFile: null,
-				singleLine: false
+				multiLine: true
 			},
 			fontFaceDeclarations = {},
 			fontFamily = "";
@@ -87,7 +87,7 @@
 
 			// internal event listeners
 			onKeyPress: function( event, that ) {
-				if ( that.settings.singleLine && event.keyCode === 13 ) {
+				if ( that.settings.multiLine === false && event.keyCode === 13 ) {
 					return false;
 				}
 			},
