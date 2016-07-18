@@ -64,6 +64,10 @@
 			this.changeLetterSpacing = function( args ) {
 				this.setLetterSpacing( args[ 1 ] );
 			};
+
+			this.changeLeading = function( args ) {
+				this.setLeading( args[ 1 ] );
+			};
 		}
 
 		// Avoid Plugin.prototype conflicts
@@ -97,6 +101,9 @@
 			},
 			setLetterSpacing: function( spacing ) {
 				$( this.element ).css( "letter-spacing", spacing );
+			},
+			setLeading: function( leading ) {
+				$( this.element ).css( "line-height", leading );
 			}
 		} );
 

@@ -35,6 +35,12 @@
 		<div id="test4">Test</div>
 		<input id="test4-letterspacing" size="6" />
 
+		<hr>
+
+		<h1>Testing line height</h1>
+		<div id="test5">Test<br>Test<br>Test</div>
+		<input id="test5-leading" size="6" />
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
@@ -44,7 +50,6 @@
 					$("#test1").fontSampler("changeSize", $(this).data("size"));
 				} );
 				$("#test1").fontSampler("changeSize", "72px");
-
 
 
 				$( "#test2" ).fontSampler( {
@@ -68,6 +73,14 @@
 				} );
 				$("#test4-letterspacing").on("change", function () {
 					$("#test4").fontSampler("changeLetterSpacing", $(this).val());
+				});
+
+
+				$("#test5").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				});
+				$("#test5-leading").on("change", function () {
+					$("#test5").fontSampler("changeLeading", $(this).val());
 				});
 			} );
 		</script>
