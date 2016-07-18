@@ -1,0 +1,17 @@
+#sampler {
+	border: 1px solid grey;
+	padding: 20px;
+	box-sizing: border-box;
+}
+
+#sampler label {
+	display: block;
+}
+
+#sampler label span {
+	margin: 0 0 0 1em;
+}
+
+#sampler .sample {
+	margin: 1em 0;
+}

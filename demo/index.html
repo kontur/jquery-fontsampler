@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>jQuery fontsampler</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+		<script src="../src/jquery.fontsampler.js"></script>
+	</head>
+	<body>
+
+		<h1>Testing size adjustments</h1>
+		<div id="test1">Test</div>
+		<button class="test1-size" data-size="12px">12px</button>
+		<button class="test1-size" data-size="18px">18px</button>
+		<button class="test1-size" data-size="2cm">2cm</button>
+
+		<hr>
+
+		<div id="test2">Test</div>
+		<input id="test2-size" size="2" />px
+
+		<small>This could also be a slider implementation or similar.</small>
+
+		<h1>Testing switching fonts</h1>
+		<div id="test3">Test</div>
+		<select id="test3-font">
+			<option value="OpenSans-Regular-webfont">OpenSans-Regular</option>
+			<option value="OpenSans-Italic-webfont">OpenSans-Italic</option>
+			<option value="OpenSans-Semibold-webfont">OpenSans-Semibold</option>
+		</select>
+
+		<hr>
+
+		<h1>Testing letter spacing</h1>
+		<div id="test4">Test</div>
+		<input id="test4-letterspacing" size="6" />
+
+		<hr>
+
+		<h1>Testing line height</h1>
+		<div id="test5">Test<br>Test<br>Test</div>
+		<input id="test5-leading" size="6" />
+
+		<hr>
+		<h1>Testing single line</h1>
+		<div id="test6">Can't use line breaks in this</div>
+
+		<script>
+			$( function() {
+				$( "#test1" ).fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				} );
+				$("button.test1-size").on("click", function () {
+					$("#test1").fontSampler("changeSize", $(this).data("size"));
+				} );
+				$("#test1").fontSampler("changeSize", "72px");
+
+
+				$( "#test2" ).fontSampler( {
+					fontFile: "OpenSans-Italic-webfont"
+				} );
+				$("#test2-size").on("change", function () {
+					$("#test2").fontSampler("changeSize", $(this).val() + "px");
+				} );
+
+
+				$("#test3").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				} );
+				$( "#test3-font" ).on("change", function () {
+					$("#test3").fontSampler("changeFont", $(this).val());
+				});		
+
+
+				$("#test4").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				} );
+				$("#test4-letterspacing").on("change", function () {
+					$("#test4").fontSampler("changeLetterSpacing", $(this).val());
+				});
+
+
+				$("#test5").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				});
+				$("#test5-leading").on("change", function () {
+					$("#test5").fontSampler("changeLeading", $(this).val());
+				});
+
+
+				$("#test6").fontSampler({
+					fontFile: "OpenSans-Regular-webfont",
+					multiLine: false
+				});
+			} );
+		</script>
+	</body>
+</html>
