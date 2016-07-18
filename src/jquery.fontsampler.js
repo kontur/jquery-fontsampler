@@ -33,7 +33,7 @@
 		var pluginName = "fontSampler",
 			defaults = {
 				fontFile: null,
-				singleLine: true
+				singleLine: false
 			},
 			fontFaceDeclarations = {},
 			fontFamily = "";
@@ -59,6 +59,10 @@
 			this.changeFont = function( args ) {
 				fontFamily = declareFontFace( args[ 1 ] );
 				this.setFont( fontFamily );
+			};
+
+			this.changeLetterSpacing = function( args ) {
+				this.setLetterSpacing( args[ 1 ] );
 			};
 		}
 
@@ -90,6 +94,9 @@
 			},
 			setSize: function( size ) {
 				$( this.element ).css( "font-size", size );
+			},
+			setLetterSpacing: function( spacing ) {
+				$( this.element ).css( "letter-spacing", spacing );
 			}
 		} );
 

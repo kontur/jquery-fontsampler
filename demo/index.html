@@ -29,6 +29,12 @@
 			<option value="OpenSans-Semibold-webfont">OpenSans-Semibold</option>
 		</select>
 
+		<hr>
+
+		<h1>Testing letter spacing</h1>
+		<div id="test4">Test</div>
+		<input id="test4-letterspacing" size="6" />
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
@@ -54,7 +60,15 @@
 				} );
 				$( "#test3-font" ).on("change", function () {
 					$("#test3").fontSampler("changeFont", $(this).val());
-				});				
+				});		
+
+
+				$("#test4").fontSampler( {
+					fontFile: "OpenSans-Regular-webfont"
+				} );
+				$("#test4-letterspacing").on("change", function () {
+					$("#test4").fontSampler("changeLetterSpacing", $(this).val());
+				});
 			} );
 		</script>
 	</body>
