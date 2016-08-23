@@ -121,7 +121,7 @@
 		    newStyle.appendChild( document.createTextNode( "\n" +
 		        "@font-face {\n" +
 		            "font-family: '" + newName + "';\n" +
-		            "src: url('" + file + ".woff') format(woff)\n" +
+		            "src: url('" + file + ".woff') format('woff');\n" +
 		        "}\n"
 		    ) );
 		    document.head.appendChild( newStyle );
