@@ -156,6 +156,8 @@
             declaration = declaration.concat("font-family: '" + name + "';\n");
 
             var formats = ["eot", "woff2", "woff", "ttf", "svg"];
+            var outputIndex = 0;
+            var suppliedFormats = Object.keys(files).length;
 
             for (var f = 0; f < formats.length; f++) {
                 var format = formats[f];
@@ -163,8 +165,9 @@
                     if (format === "eot") {
                         declaration = declaration.concat("src: url('" + files.eot + "');\n");
                         declaration = declaration.concat("src: url('" + files.eot + "?#iefix') format('embedded-opentype')");
+                        outputIndex++;
                     } else {
-                        if (f === 0) {
+                        if (outputIndex === 0) {
                             declaration = declaration.concat("src: ");
                         }
                         if (format === "ttf") {
@@ -174,8 +177,9 @@
                         } else {
                             declaration = declaration.concat("url('" + files[format] + "') format('" + format + "')");
                         }
+                        outputIndex++;
                     }
-                    if (f < formats.length - 1) {
+                    if (outputIndex < suppliedFormats) {
                         declaration = declaration.concat(",\n");
                     } else {
                         declaration = declaration.concat(";\n");
@@ -186,6 +190,8 @@
             declaration = declaration.concat("font-weight: " + weight + ";\n");
             declaration = declaration.concat("font-style: " + style + ";\n");
             declaration = declaration.concat("}\n");
+
+            console.log(declaration);
 
             return declaration;
         }
