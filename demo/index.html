@@ -47,7 +47,12 @@
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
-					fontFile: "OpenSans-Regular-webfont"
+					fontFiles: {
+						woff: "Aleo-Regular-webfont.woff",
+						eot: "Aleo-Regular-webfont.eot",
+						svg: "Aleo-Regular-webfont.svg",
+						ttf: "Aleo-Regular-webfont.ttf"
+					}
 				} );
 				$("button.test1-size").on("click", function () {
 					$("#test1").fontSampler("changeSize", $(this).data("size"));
@@ -56,7 +61,12 @@
 
 
 				$( "#test2" ).fontSampler( {
-					fontFile: "OpenSans-Italic-webfont"
+					fontFiles: {
+						woff: "Aleo-Regular-webfont.woff",
+						eot: "Aleo-Regular-webfont.eot",
+						svg: "Aleo-Regular-webfont.svg",
+						ttf: "Aleo-Regular-webfont.ttf"
+					}
 				} );
 				$("#test2-size").on("change", function () {
 					$("#test2").fontSampler("changeSize", $(this).val() + "px");
@@ -64,7 +74,9 @@
 
 
 				$("#test3").fontSampler( {
-					fontFile: "OpenSans-Regular-webfont"
+					fontFiles: {
+						woff: "OpenSans-Regular-webfont"
+					}
 				} );
 				$( "#test3-font" ).on("change", function () {
 					$("#test3").fontSampler("changeFont", $(this).val());
@@ -72,7 +84,9 @@
 
 
 				$("#test4").fontSampler( {
-					fontFile: "OpenSans-Regular-webfont"
+					fontFiles: {
+						woff: "OpenSans-Regular-webfont"
+					}
 				} );
 				$("#test4-letterspacing").on("change", function () {
 					$("#test4").fontSampler("changeLetterSpacing", $(this).val());
@@ -80,7 +94,9 @@
 
 
 				$("#test5").fontSampler( {
-					fontFile: "OpenSans-Regular-webfont"
+					fontFiles: {
+						woff: "OpenSans-Regular-webfont"
+					}
 				});
 				$("#test5-leading").on("change", function () {
 					$("#test5").fontSampler("changeLeading", $(this).val());
@@ -88,7 +104,9 @@
 
 
 				$("#test6").fontSampler({
-					fontFile: "OpenSans-Regular-webfont",
+					fontFiles: {
+						woff: "OpenSans-Regular-webfont"
+					},
 					multiLine: false
 				});
 			} );
