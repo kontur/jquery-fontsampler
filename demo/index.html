@@ -21,7 +21,7 @@
 		<small>This could also be a slider implementation or similar.</small>
 
 		<h1>Testing switching fonts</h1>
-		<div id="test3">Test</div>
+		<div id="test3" data-font-files='{"woff": "Aleo-Regular-webfont.woff","eot": "Aleo-Regular-webfont.eot","svg": "Aleo-Regular-webfont.svg","ttf": "Aleo-Regular-webfont.ttf"}'>Test</div>
 		<select id="test3-font">
 			<option value="OpenSans-Regular-webfont">OpenSans-Regular</option>
 			<option value="OpenSans-Italic-webfont">OpenSans-Italic</option>
@@ -73,11 +73,7 @@
 				} );
 
 
-				$("#test3").fontSampler( {
-					fontFiles: {
-						woff: "OpenSans-Regular-webfont"
-					}
-				} );
+				$("#test3").fontSampler();
 				$( "#test3-font" ).on("change", function () {
 					$("#test3").fontSampler("changeFont", $(this).val());
 				});		
