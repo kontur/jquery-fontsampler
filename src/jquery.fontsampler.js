@@ -56,7 +56,8 @@
             };
 
             this.changeFont = function( args ) {
-                fontFamily = declareFontFace( args[ 1 ] );
+                this.settings.fontFiles = args[ 1 ];
+                fontFamily = declareFontFace( this.settings.fontFiles );
                 this.setFont( fontFamily );
             };
 
@@ -182,8 +183,6 @@
             declaration = declaration.concat("font-weight: " + weight + ";\n");
             declaration = declaration.concat("font-style: " + style + ";\n");
             declaration = declaration.concat("}\n");
-
-            console.log(declaration);
 
             return declaration;
         }
