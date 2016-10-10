@@ -1,23 +1,29 @@
 {
   "name": "jquery-fontsampler",
+  "description": "A jQuery plugin for displaying, manipulating and testing webfont type samples",
   "license": "Apache 2.0",
   "authors": [
-    "Johannes Neumeier <hello@johannesneumeier.com>"
+    "Johannes Neumeier <hello@johannesneumeier.com> (http://johannesneumeier.com)"
   ],
-  "description": "A jQuery plugin for displaying, manipulating and testing webfont type samples",
   "homepage": "https://github.com/kontur/jquery-fontsampler",
   "keywords": [
     "jquery",
     "plugin",
     "jquery-plugin",
+    "font",
+    "typeface"
   ],
   "main": "src/jquery.fontsampler.js",
-  "dependencies": {
-    "jquery": "1"
-  },
   "ignore": [
     "npm-debug.log",
     "bower_components",
     "node_modules"
-  ]
+  ],
+  "repository": {
+    "type": "git", 
+    "url": "git://github.com/kontur/jquery-fontsampler.git"
+  },
+  "dependencies": {
+    "jquery": "1"
+  }
 }
