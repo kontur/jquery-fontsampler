@@ -83,7 +83,7 @@
         };
 
         this.enableOTFeature = function( args ) {
-            if (this.otfeatures.indexOf( args[ 1 ] === -1 ) ) {
+            if (this.otfeatures.indexOf( args[ 1 ] ) === -1 ) {
                 this.otfeatures.push( args[ 1 ] );
                 this.updateOTFeatures();
             }
