@@ -175,7 +175,7 @@
             $( this.element ).css( "line-height", leading );
         },
         updateOTFeatures: function() {
-            var features, ligatures = [], ligatureVariant;
+            var features, ligatures = [], ligatureVariant, ligaValues;
 
             // css variant-ligature keyword - value tuples
             ligaValues = {
