@@ -1,5 +1,5 @@
 /**
- * Copyright 2016 Johannes Neumeier
+ * Copyright 2016-2017 Johannes Neumeier
  *
  * Licensed under the Apache License, Version 2.0 (the "License" );
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@
         };
 
         this.enableOTFeature = function( args ) {
-            if (this.otfeatures.indexOf( args[ 1 ] === -1 ) ) {
+            if ( this.otfeatures.indexOf( args[ 1 ] === -1 ) ) {
                 this.otfeatures.push( args[ 1 ] );
                 this.updateOTFeatures();
             }
@@ -83,7 +83,7 @@
 
         this.disableOTFeature = function( args ) {
             var index = this.otfeatures.indexOf( args[ 1 ] );
-            if (index > -1 ) {
+            if ( index > -1 ) {
                 this.otfeatures.splice( index, 1 );
                 this.updateOTFeatures();
             }
@@ -97,8 +97,9 @@
     // Avoid Plugin.prototype conflicts
     $.extend( Plugin.prototype, {
         init: function() {
-            var dataFontFiles = $(this.element ).data( "font-files" );
-            if (typeof dataFontFiles === "object" ) {
+            var dataFontFiles = $( this.element ).data( "font-files" );
+            if ( typeof dataFontFiles === "object" ) {
+
                 // merge in data-font-files options; these overwrite javascript passed in options
                 this.settings.fontFiles = $.extend( {}, this.settings.fontFiles, dataFontFiles );
             }
@@ -126,15 +127,18 @@
         // internal event listeners
         onUpdate: function( event, that ) {
             if ( that.settings.multiLine === false ) {
-                if ( event.type === "keypress") {
+                if ( event.type === "keypress" ) {
+
                     // for keypress events immediately block pressing enter for line break
                     if ( event.keyCode === 13 ) {
                         return false;
                     }
                 } else {
+
                     // allow other events, filter any html with $.text() and replace linebreaks
-                    // TODO fix paste event from setting the caret to the front of the non-input non-textarea
-                    var text = $( that.element ).text().replace('/\n/gi', '');
+                    // TODO fix paste event from setting the caret to the front of the non-input
+                    // non-textarea
+                    var text = $( that.element ).text().replace( "/\n/gi", "" );
                     $( that.element ).html( text );
                 }
             }
@@ -144,6 +148,10 @@
         // manipulation methods mirrored from public mthods
         setFont: function() {
             $( this.element ).css( "fontFamily", fontFamily );
+            $( this.element ).trigger( {
+                type: "changedFamily",
+                family: fontFamily
+            } );
         },
         setSize: function( size ) {
             $( this.element ).css( "font-size", size );
@@ -159,26 +167,27 @@
             $( this.element ).css( "line-height", leading );
         },
         updateOTFeatures: function() {
-            var features, ligatures = [], ligatureVariant,
-            
+            var features, ligatures = [], ligatureVariant;
+
             // css variant-ligature keyword - value tuples
             ligaValues = {
-                liga : [ "no-common-ligatures", "common-ligatures" ],
-                dlig : [ "no-discretionary-ligatures", "discrectionary-ligatures" ],
-                hlig : [ "no-historical-ligatures", "historical-ligatures" ],
-                calt : [ "no-contextual", "contextual" ]
+                liga: [ "no-common-ligatures", "common-ligatures" ],
+                dlig: [ "no-discretionary-ligatures", "discrectionary-ligatures" ],
+                hlig: [ "no-historical-ligatures", "historical-ligatures" ],
+                calt: [ "no-contextual", "contextual" ]
             };
 
             // font-feature-settings
-            if (this.otfeatures.length === 0 ) {
+            if ( this.otfeatures.length === 0 ) {
                 features = "inherit";
             } else {
                 features = "'";
-                features = features.concat(this.otfeatures.join( "','" ) );
+                features = features.concat( this.otfeatures.join( "','" ) );
                 features = features.concat( "'" );
             }
 
-            // partial TODO leverage more high level syntax options ala font-variant-xxx for features that have it available
+            // partial TODO leverage more high level syntax options ala font-variant-xxx for
+            // features that have it available
             $( this.element ).css( {
                 "-webkit-font-feature-settings": features,
                 "-moz-font-feature-settings": features,
@@ -189,9 +198,9 @@
             // font-variant-ligatures
             // note: iteration order crucial for css shorthand to work
             var ligaKeyWords = [ "liga", "dlig", "hlig", "calt" ];
-            for (var l = 0; l < ligaKeyWords.length; l++ ) {
+            for ( var l = 0; l < ligaKeyWords.length; l++ ) {
                 var keyword = ligaKeyWords[ l ];
-                if ( this.otfeatures.indexOf(keyword ) > -1 ) {
+                if ( this.otfeatures.indexOf( keyword ) > -1 ) {
                     ligatures.push( ligaValues[ keyword ][ 1 ] );
                 } else {
                     ligatures.push( ligaValues[ keyword ][ 0 ] );
@@ -208,18 +217,19 @@
         setLang: function( lang ) {
 
             // TODO could check against available list of valid language attribute values
-            if (lang.length !== 2 ) {
-                throw "fontSampler.changeLang(): Language string must be 2 characters HTML lang attribute value";
+            if ( lang.length !== 2 ) {
+                throw "fontSampler.changeLang(): Language string must be 2 characters HTML lang " +
+                    " attribute value";
             }
             $( this.element ).attr( "lang", lang );
         }
     } );
 
-
     // append a new style @font-face declaration
     // TODO format check
     // TODO track and check existing declarations
     function declareFontFace ( files ) {
+
         // generate a random string font-family name that is specific to this file
         var newName = Math.random().toString( 36 ).replace( /[^a-z]+/g, "" ).substr( 0, 20 );
         var newStyle = document.createElement( "style" );
@@ -228,7 +238,6 @@
         document.head.appendChild( newStyle );
         return newName;
     }
-
 
     /*
      * Helper that generates a CSS font face declaration based on font name and passed in files
@@ -260,18 +269,22 @@
             if ( format in files ) {
                 if ( format === "eot" ) {
                     declaration = declaration.concat( "src: url( '" + files.eot + "' );\n" );
-                    declaration = declaration.concat( "src: url( '" + files.eot + "?#iefix' ) format( 'embedded-opentype' )" );
+                    declaration = declaration.concat( "src: url( '" + files.eot +
+                        "?#iefix' ) format( 'embedded-opentype' )" );
                     outputIndex++;
                 } else {
                     if ( outputIndex === 0 ) {
                         declaration = declaration.concat( "src: " );
                     }
                     if ( format === "ttf" ) {
-                        declaration = declaration.concat( "url( '" + files.ttf + "' ) format( 'truetype' )" );
+                        declaration = declaration.concat( "url( '" + files.ttf +
+                            "' ) format( 'truetype' )" );
                     } else if ( format === "svg" ) {
-                        declaration = declaration.concat( "url( '" + files.svg + "#" + name + "' ) format( 'svg' )" );
+                        declaration = declaration.concat( "url( '" + files.svg + "#" + name +
+                            "' ) format( 'svg' )" );
                     } else {
-                        declaration = declaration.concat( "url( '" + files[ format ] + "' ) format( '" + format + "' )" );
+                        declaration = declaration.concat( "url( '" + files[ format ] +
+                            "' ) format( '" + format + "' )" );
                     }
                     outputIndex++;
                 }

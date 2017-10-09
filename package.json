@@ -1,6 +1,6 @@
 {
   "name": "jquery-fontsampler",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A jQuery plugin for displaying, manipulating and testing webfont type samples",
   "keywords": [
     "jquery-plugin",
