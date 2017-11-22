@@ -56,6 +56,12 @@
 		<h1>Test woff2</h1>
 		<div id="test8">Testing woff2</div>
 
+		<hr>
+		<h1>Testing inherited font size, spacing and line height</h1>
+		<div class="test9" style="font-size: 36px;">Big font</div>
+		<div class="test9" style="letter-spacing: 5px;">Wide spacing</div>
+		<div class="test9" style="line-height: 200%;">Double<br>line<br>height</div>
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
@@ -125,6 +131,12 @@
 				$("#test8").fontSampler({
 					fontFiles: {
 						woff2: "opensans-regular-webfont.woff2"
+					}
+				})
+
+				$(".test9").fontSampler({
+					fontFiles: {
+						woff: "OpenSans-Regular-webfont.woff"
 					}
 				})
 			} );

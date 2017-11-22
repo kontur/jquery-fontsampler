@@ -34,9 +34,9 @@
         defaults = {
             fontFiles: null,
             multiLine: true,
-            fontSize: "18px",
-            letterSpacing: "0px",
-            leading: "100%"
+            fontSize: "auto",
+            letterSpacing: "auto",
+            leading: "auto"
         },
         fontFamily = "";
 
