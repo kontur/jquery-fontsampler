@@ -45,7 +45,8 @@
             fontSize: "auto",
             letterSpacing: "auto",
             leading: "auto",
-            editable: true
+            editable: true,
+            familyName: null
         },
         fontFamily = "";
 
@@ -71,7 +72,7 @@
 
         this.changeFont = function( args ) {
             this.settings.fontFiles = args[ 1 ];
-            fontFamily = declareFontFace( this.settings.fontFiles );
+            fontFamily = declareFontFace( this.settings.fontFiles, this.settings.familyName );
             this.setFont( fontFamily );
         };
 
@@ -102,7 +103,7 @@
             this.setLang( args[ 1 ] );
         };
 
-        this.changeEditable = function ( args ) {
+        this.changeEditable = function( args ) {
             this.setEditable( args[ 1 ] );
         };
     }
@@ -116,7 +117,7 @@
                 // merge in data-font-files options; these overwrite javascript passed in options
                 this.settings.fontFiles = $.extend( {}, this.settings.fontFiles, dataFontFiles );
             }
-            fontFamily = declareFontFace( this.settings.fontFiles );
+            fontFamily = declareFontFace( this.settings.fontFiles, this.settings.familyName );
             this.setupUI();
             this.setFont( fontFamily );
             this.setSize( this.settings.fontSize );
@@ -180,9 +181,9 @@
         setLeading: function( leading ) {
             $( this.element ).css( "line-height", leading );
         },
-        setEditable: function ( value ) {
+        setEditable: function( value ) {
             value = !!value; // force boolean
-            if (value) {
+            if ( value ) {
                 $( this.element ).attr( "contenteditable", true );
             } else {
                 $( this.element ).removeAttr( "contenteditable" );
@@ -250,15 +251,26 @@
     // append a new style @font-face declaration
     // TODO format check
     // TODO track and check existing declarations
-    function declareFontFace ( files ) {
+    function declareFontFace ( files, familyName ) {
 
-        // generate a random string font-family name that is specific to this file
-        var newName = Math.random().toString( 36 ).replace( /[^a-z]+/g, "" ).substr( 0, 20 );
+        // when no familyName is supplied generate random string
+        if ( null === familyName ) {
+
+            // generate a random string font-family name that is specific to this file
+            familyName = Math.random().toString( 36 ).replace( /[^a-z]+/g, "" ).substr( 0, 20 );
+        }
+
+        // if this family name was already declared don't redeclare
+        if ( $( "[data-generated-by][data-family-name='" + familyName + "']" ).length !== 0 ) {
+            return familyName;
+        }
+
         var newStyle = document.createElement( "style" );
         newStyle.setAttribute( "data-generated-by", "fontsampler" );
-        newStyle.appendChild( document.createTextNode( generateFontFace( newName, files ) ) );
+        newStyle.setAttribute( "data-family-name", familyName );
+        newStyle.appendChild( document.createTextNode( generateFontFace( familyName, files ) ) );
         document.head.appendChild( newStyle );
-        return newName;
+        return familyName;
     }
 
     /*
