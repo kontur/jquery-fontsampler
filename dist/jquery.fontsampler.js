@@ -42,9 +42,10 @@
         defaults = {
             fontFiles: null,
             multiLine: true,
-            fontSize: "18px",
-            letterSpacing: "0px",
-            leading: "100%"
+            fontSize: "auto",
+            letterSpacing: "auto",
+            leading: "auto",
+            editable: true
         },
         fontFamily = "";
 
@@ -100,6 +101,10 @@
         this.changeLang = function( args ) {
             this.setLang( args[ 1 ] );
         };
+
+        this.changeEditable = function ( args ) {
+            this.setEditable( args[ 1 ] );
+        };
     }
 
     // Avoid Plugin.prototype conflicts
@@ -117,6 +122,7 @@
             this.setSize( this.settings.fontSize );
             this.setLetterSpacing( this.settings.letterSpacing );
             this.setLeading( this.settings.leading );
+            this.setEditable( this.settings.editable );
             this.updateOTFeatures();
         },
         setupUI: function() {
@@ -173,6 +179,14 @@
         },
         setLeading: function( leading ) {
             $( this.element ).css( "line-height", leading );
+        },
+        setEditable: function ( value ) {
+            value = !!value; // force boolean
+            if (value) {
+                $( this.element ).attr( "contenteditable", true );
+            } else {
+                $( this.element ).removeAttr( "contenteditable" );
+            }
         },
         updateOTFeatures: function() {
             var features, ligatures = [], ligatureVariant, ligaValues;

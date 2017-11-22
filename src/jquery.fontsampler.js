@@ -96,7 +96,7 @@
 
         this.changeEditable = function ( args ) {
             this.setEditable( args[ 1 ] );
-        }
+        };
     }
 
     // Avoid Plugin.prototype conflicts
