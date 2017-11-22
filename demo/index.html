@@ -5,8 +5,6 @@
 		<script src="../node_modules/jquery/dist/jquery.min.js"></script>
 		<script src="../src/jquery.fontsampler.js"></script>
 		<meta charset="UTF-8">
-		<script src="https://use.typekit.net/zyv7sah.js"></script>
-		<script>try{Typekit.load({ async: true });}catch(e){}</script>
 	</head>
 	<body>
 
@@ -24,7 +22,7 @@
 		<small>This could also be a slider implementation or similar.</small>
 
 		<h1>Testing switching fonts</h1>
-		<div id="test3" data-font-files='{"woff": "Aleo-Regular-webfont.woff","eot": "Aleo-Regular-webfont.eot","svg": "Aleo-Regular-webfont.svg","ttf": "Aleo-Regular-webfont.ttf"}'>Test</div>
+		<div id="test3" data-font-files='{"woff": "OpenSans-ExtraBold-webfont.woff"}'>Test</div>
 		<select id="test3-font">
 			<option value="OpenSans-Regular-webfont">OpenSans-Regular</option>
 			<option value="OpenSans-Italic-webfont">OpenSans-Italic</option>
@@ -47,12 +45,6 @@
 		<h1>Testing single line</h1>
 		<div id="test6">Can't use line breaks in this</div>
 
-
-		<style type="text/css">
-		#test7 {
-			font-family: "skolar-sans-latin-extended";
-		}
-		</style>
 		<hr>
 		<h1>Testing language locl opentype settings</h1>
 		<div id="test7">Ţară Țară MIJN MÍJN</div>
@@ -60,14 +52,15 @@
 		<button class="test7-lang" lang="mo">Moldavan</button>
 		<button class="test7-lang" lang="nl">Dutch</button>
 
+		<hr>
+		<h1>Test woff2</h1>
+		<div id="test8">Testing woff2</div>
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
 					fontFiles: {
-						woff: "Aleo-Regular-webfont.woff",
-						eot: "Aleo-Regular-webfont.eot",
-						svg: "Aleo-Regular-webfont.svg",
-						ttf: "Aleo-Regular-webfont.ttf"
+						woff: "OpenSans-ExtraBold-webfont.woff"
 					}
 				} );
 				$("button.test1-size").on("click", function () {
@@ -78,10 +71,7 @@
 
 				$( "#test2" ).fontSampler( {
 					fontFiles: {
-						woff: "Aleo-Regular-webfont.woff",
-						eot: "Aleo-Regular-webfont.eot",
-						svg: "Aleo-Regular-webfont.svg",
-						ttf: "Aleo-Regular-webfont.ttf"
+						woff: "OpenSans-ExtraBold-webfont.woff"
 					}
 				} );
 				$("#test2-size").on("change", function () {
@@ -131,6 +121,12 @@
 				$(".test7-lang").click(function () {
 					$("#test7").fontSampler("changeLang", $(this).attr("lang"));
 				});
+
+				$("#test8").fontSampler({
+					fontFiles: {
+						woff2: "opensans-regular-webfont.woff2"
+					}
+				})
 			} );
 		</script>
 	</body>
