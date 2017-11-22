@@ -24,7 +24,7 @@
 		<h1>Testing switching fonts</h1>
 		<div id="test3" data-font-files='{"woff": "OpenSans-ExtraBold-webfont.woff"}'>Test</div>
 		<select id="test3-font">
-			<option value="OpenSans-Regular-webfont">OpenSans-Regular</option>
+			<option value="opensans-regular-webfont">OpenSans-Regular</option>
 			<option value="OpenSans-Italic-webfont">OpenSans-Italic</option>
 			<option value="OpenSans-Semibold-webfont">OpenSans-Semibold</option>
 		</select>
@@ -62,6 +62,12 @@
 		<div class="test9" style="letter-spacing: 5px;">Wide spacing</div>
 		<div class="test9" style="line-height: 200%;">Double<br>line<br>height</div>
 
+		<hr>
+		<h1>Init as not editable</h1>
+		<div id="test10">Not editable</div>
+		<button class="test10-toggle make-editable">Make editable</button>
+		<button class="test10-toggle">Make not editable</button>
+
 		<script>
 			$( function() {
 				$( "#test1" ).fontSampler( {
@@ -93,7 +99,7 @@
 
 				$("#test4").fontSampler( {
 					fontFiles: {
-						woff: "OpenSans-Regular-webfont.woff"
+						woff: "opensans-regular-webfont.woff"
 					}
 				} );
 				$("#test4-letterspacing").on("change", function () {
@@ -103,7 +109,7 @@
 
 				$("#test5").fontSampler( {
 					fontFiles: {
-						woff: "OpenSans-Regular-webfont.woff"
+						woff: "opensans-regular-webfont.woff"
 					}
 				});
 				$("#test5-leading").on("change", function () {
@@ -113,7 +119,7 @@
 
 				$("#test6").fontSampler({
 					fontFiles: {
-						woff: "OpenSans-Regular-webfont.woff"
+						woff: "opensans-regular-webfont.woff"
 					},
 					multiLine: false
 				});
@@ -136,7 +142,21 @@
 
 				$(".test9").fontSampler({
 					fontFiles: {
-						woff: "OpenSans-Regular-webfont.woff"
+						woff: "opensans-regular-webfont.woff"
+					}
+				})
+
+				$("#test10").fontSampler({
+					fontFiles: {
+						woff: "opensans-regular-webfont.woff"
+					},
+					editable: false
+				})
+				$(".test10-toggle").on("click", function () {
+					if ($(this).hasClass("make-editable")) {
+						$("#test10").fontSampler("changeEditable", true).html("Editable");
+					} else {
+						$("#test10").fontSampler("changeEditable", false).html("Not editable");
 					}
 				})
 			} );
