@@ -64,6 +64,9 @@
 
         this.changeFont = function( args ) {
             this.settings.fontFiles = args[ 1 ];
+            if ( typeof args[ 2 ] !== "undefined" ) {
+                this.settings.familyName = args[ 2 ];
+            }
             fontFamily = declareFontFace( this.settings.fontFiles, this.settings.familyName );
             this.setFont( fontFamily );
         };

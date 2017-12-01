@@ -1,5 +1,5 @@
 /*
- *  jquery-fontsampler - v0.0.5
+ *  jquery-fontsampler - v0.0.9
  *  A jQuery plugin for displaying, manipulating and testing webfont type samples
  *  https://github.com/kontur/jquery-fontsampler
  *
@@ -72,6 +72,9 @@
 
         this.changeFont = function( args ) {
             this.settings.fontFiles = args[ 1 ];
+            if ( typeof args[ 2 ] !== "undefined" ) {
+                this.settings.familyName = args[ 2 ];
+            }
             fontFamily = declareFontFace( this.settings.fontFiles, this.settings.familyName );
             this.setFont( fontFamily );
         };
