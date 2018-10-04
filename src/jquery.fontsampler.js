@@ -1,5 +1,13 @@
+/*
+ *  jquery-fontsampler - v0.0.10
+ *  A jQuery plugin for displaying, manipulating and testing webfont type samples
+ *  https://github.com/kontur/jquery-fontsampler
+ *
+ *  Made by Johannes Neumeier
+ *  Under Apache 2.0 License
+ */
 /**
- * Copyright 2016-2017 Johannes Neumeier
+ * Copyright 2016-2018 Johannes Neumeier
  *
  * Licensed under the Apache License, Version 2.0 (the "License" );
  * you may not use this file except in compliance with the License.
@@ -65,7 +73,9 @@
         this.changeFont = function( args ) {
             this.settings.fontFiles = args[ 1 ];
             if ( typeof args[ 2 ] !== "undefined" ) {
-                this.settings.familyName = args[ 2 ];
+                // remove quotes from passed in font name, if such were present
+                // later add quotes around multi word font names only where necessary
+                this.settings.familyName = args[ 2 ].replace(/['"]+/g, '');
             }
             fontFamily = declareFontFace( this.settings.fontFiles, this.settings.familyName );
             this.setFont( fontFamily );
@@ -157,7 +167,7 @@
 
         // manipulation methods mirrored from public mthods
         setFont: function() {
-            $( this.element ).css( "fontFamily", fontFamily );
+            $( this.element ).css( "fontFamily", "'" + fontFamily + "'" );
             $( this.element ).trigger( {
                 type: "changedFamily",
                 family: fontFamily
